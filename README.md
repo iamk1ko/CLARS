@@ -108,7 +108,7 @@ python clars_cls.py --surrogate_model 'resnet18' \
 
 ```
 python pred_cls.py --dataID 1 \
-				   --victim_model 'resnet18' \
+		   --victim_model 'resnet18' \
                    --data_path <THE-ROOT-PATH-OF-DATA> \
                    --batch_size 8
 ```
