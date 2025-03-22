@@ -2,7 +2,7 @@
 
 Contrastive Learning Attack for Remote Sensing
 
-![方法架构_small](C:\Users\52934\Desktop\对抗攻击实验结果\论文插图\方法架构_small.png)
+![arch](https://github.com/iamk1ko/CLARS/docs/arch.png)
 
 
 
