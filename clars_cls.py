@@ -199,7 +199,7 @@ def main(args):
     if not os.path.exists(f'results/{dataset_name}/{args.surrogate_model}/chkpt/best.pth'):
         raise ValueError(f"Checkpoint not found: {chkpt_path}, please train the model first.")
 
-    save_path_prefix = f'./Adversarial Dataset/{dataset_name}/{args.surrogate_model}_{target_layer}_iter{num_iter}/'
+    save_path_prefix = f'./{args.save_prefix}/{dataset_name}/{args.surrogate_model}_{target_layer}_iter{num_iter}/'
     print("Current Dataset：", dataset_name, "Adversarial Example Size:", args.crop_size, "Batch Size:", batch_size)
 
     surrogate_model = CLARS(base_encoder, pretrained_path=chkpt_path, target_layer=target_layer,
@@ -306,6 +306,7 @@ if __name__ == '__main__':
     parser.add_argument('--dataID', type=int, default=1, help='1: UCMerced_LandUse, 2: AID, 3: NWPU_RESISC45')
     parser.add_argument('--surrogate_model', type=str, default='resnet18',
                         help='vit, resnet18, swin, rsmamba, convnext, replknet')
+    parser.add_argument('--save_prefix', type=str, default='adv_examples')
     parser.add_argument('--crop_size', type=int, default=224)
     parser.add_argument('--batch_size', type=int, default=2)
     parser.add_argument('--epsilon', type=float, default=1)
