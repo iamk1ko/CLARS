@@ -14,8 +14,15 @@ Contrastive Learning Attack for Remote Sensing
 conda create -n clars python=3.9
 conda activate clars
 pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
-pip install tqdm
+pip install packaging
+pip install triton
+pip install timm
+pip install scikit-learn matplotlib scikit-image tqdm
 ```
+
+## Contrastive Learning Attack Data Set (CLADS)
+
+
 
 ## Dataset Preparation
 
@@ -83,3 +90,29 @@ Supported Remote Sensing Datasets
 │   │   ├── test (processed)
 │   ├── potsdam (the same with vaihingen)
 ```
+
+
+
+### Adversarial attacks on image classification
+
+- Generate adversarial examples:
+
+```
+python clars_cls.py --surrogate_model 'resnet18' \
+                    --dataID 1 \
+                    --save_prefix <THE-ROOT-PATH-OF-DATA> \
+                    --batch_size 8
+```
+
+- Performance evaluation on the adversarial test set:
+
+```
+python pred_cls.py --dataID 1 \
+				   --victim_model 'resnet18' \
+                   --data_path <THE-ROOT-PATH-OF-DATA> \
+                   --batch_size 8
+```
+
+## License
+
+This project is licensed under the [Apache 2.0 License](https://github.com/iamk1ko/CLARS/blob/main/LICENSE).
