@@ -2,7 +2,7 @@
 
 Contrastive Learning Attack for Remote Sensing
 
-![arch](https://github.com/iamk1ko/CLARS/tree/main/docs/arch.png)
+![arch](./docs/arch.png)
 
 
 
