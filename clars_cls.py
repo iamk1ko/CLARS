@@ -241,63 +241,7 @@ def main(args):
 
     alpha = args.alpha
 
-    for batch_data in tqdm(dataloader):
-        X, _, img_name = batch_data
-
-        _feature, _logits = surrogate_model(X[1].to(device))
-        _label = _logits.argmax(dim=1)
-
-        clean_im = X[0].to(device)
-        adv_im = clean_im.clone().to(device)
-
-        del X
-
-        momentum = torch.zeros_like(clean_im).cuda()
-
-        for i in range(num_iter):
-            adv_im = adv_im.detach().requires_grad_()
-            ce_loss = 0
-            kl_loss = 0
-
-            for k in range(5):
-                feature, logits = surrogate_model(x=adv_im)
-
-                kl_loss += -kl_loss_fn(feature, _feature)
-                ce_loss += cls_loss(logits, _label)
-                _feature = _feature[torch.randperm(_feature.size(0))]
-
-            total = ce_loss + kl_loss
-            grad = torch.autograd.grad(total, adv_im, retain_graph=False, create_graph=False)[0]
-
-            if grad is None:
-                raise RuntimeError(
-                    "Gradient is None. Check if adv_im is part of the computation graph and if total depends on adv_im."
-                )
-
-            grad = grad / torch.norm(grad, p=1)
-            grad = grad + momentum * args.decay
-            momentum = grad
-
-            grad_norm = torch.norm(grad, p=float('inf'))
-            adv_im = adv_im.detach() + alpha * grad / grad_norm
-            delta = torch.clamp(adv_im - clean_im, min=-args.epsilon, max=args.epsilon)
-            adv_im = (clean_im + delta).detach()
-
-            recreated_images = recreate_image(adv_im.cpu())
-            adv_im = preprocess_image_batch_gpu(recreated_images)
-
-        for i in range(len(img_name)):
-            if args.dataID == 1:
-                class_name = re.sub(r'\d+', '', img_name[i])
-                save_dir = os.path.join(save_path_prefix, 'Images/' + class_name)
-            else:
-                class_name = img_name[i].rsplit('_', 1)[0]
-                save_dir = os.path.join(save_path_prefix, class_name)
-            if not os.path.exists(save_dir):
-                os.makedirs(save_dir)
-            img_save_path = save_dir + '/' + img_name[i] + '.png'
-            im = Image.fromarray(recreated_images[i])
-            im.save(img_save_path, 'PNG')
+    ... # to be continue
 
 
 if __name__ == '__main__':
